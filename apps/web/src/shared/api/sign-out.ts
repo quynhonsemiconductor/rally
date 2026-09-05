@@ -13,7 +13,7 @@
  * `/login`, the accept page goes to `/login?returnTo=<the invitation link>`.
  *
  * The browser holds no tokens (see `http-client.ts`), so "sign out" is entirely: tell the server to
- * drop the session behind `__Host-rally_session`, then forget the user locally.
+ * drop the session behind `__Host-rova_session`, then forget the user locally.
  */
 import { ENV } from '@/shared/config/env'
 import { useAuthStore } from '@/shared/lib/stores/auth.store'

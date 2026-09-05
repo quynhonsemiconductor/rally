@@ -3,7 +3,7 @@ import type { JwtPayload } from './jwt.strategy';
 
 /**
  * Project the product-neutral `@quynhonsemiconductor/identity` access-token payload onto
- * rally's request principal, adding the flattened conveniences rally's guards,
+ * Rova's request principal, adding the flattened conveniences Rova's guards,
  * decorators, and controllers read: `workspaceId` (== `contextId`) and
  * `permissions` (== `claims.permissions`).
  *
@@ -12,7 +12,7 @@ import type { JwtPayload } from './jwt.strategy';
  * bound to `BFF_SESSION_RESOLVER`), so both always produce an identical
  * `req.user`.
  */
-export function toRallyPrincipal(payload: CoreJwtPayload): JwtPayload {
+export function toRovaPrincipal(payload: CoreJwtPayload): JwtPayload {
   const claims = payload.claims as { permissions?: unknown };
   const permissions = Array.isArray(claims.permissions) ? (claims.permissions as string[]) : [];
   return { ...payload, workspaceId: payload.contextId ?? '', permissions };

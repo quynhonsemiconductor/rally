@@ -1,6 +1,6 @@
 /**
  * Auth bootstrap — runs once on app start (or page refresh). Restores the
- * session from the same-origin `__Host-rally_session` cookie via the
+ * session from the same-origin `__Host-rova_session` cookie via the
  * cookie-authenticated /v1/bff/me. There are no in-browser tokens; the shared
  * guard refreshes the underlying access token server-side. Must be awaited
  * before the router guard evaluates `isAuthenticated`.

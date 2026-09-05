@@ -3,4 +3,4 @@ export * from './jwt.strategy';
 export * from './decorators';
 export * from './bff-session-resolver';
 export * from './api-token-resolver';
-export * from './rally-principal';
+export * from './rova-principal';

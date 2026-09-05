@@ -38,12 +38,12 @@ import { AttachmentsModule } from '@modules/attachments';
 import { IdentityController } from './interface/http/identity.controller';
 import { AuthController } from './interface/http/auth.controller';
 import { BffController } from './interface/http/bff/bff.controller';
-import { RallyBffSessionResolver } from './application/bff-session.resolver';
+import { RovaBffSessionResolver } from './application/bff-session.resolver';
 import { UserDrizzleRepository } from './infrastructure/persistence/user.drizzle-repository';
 import { AuthSessionDrizzleRepository } from './infrastructure/persistence/auth-session.drizzle-repository';
 import { SsoConnectionDrizzleRepository } from './infrastructure/persistence/sso-connection.drizzle-repository';
 import { SecretsManagerSecretResolver } from './infrastructure/secrets-manager-secret-resolver';
-import { RallyClaimsProvider } from './application/claims.provider';
+import { RovaClaimsProvider } from './application/claims.provider';
 import { DrizzleTransactionRunner } from './application/transaction-runner';
 
 /**
@@ -53,7 +53,7 @@ import { DrizzleTransactionRunner } from './application/transaction-runner';
  *
  *  - persistence ports  → rally's drizzle repositories
  *  - service ports      → rally's access / workspace / audit services
- *  - claims provider    → rally's permission-based {@link RallyClaimsProvider}
+ *  - claims provider    → rally's permission-based {@link RovaClaimsProvider}
  *  - transaction runner → drizzle `db.transaction`
  *  - token denylist     → `AuthTokenCache` (provided by the global PlatformModule)
  *  - options            → rally's env-driven config
@@ -76,14 +76,14 @@ import { DrizzleTransactionRunner } from './application/transaction-runner';
     // BFF (Backend-for-Frontend) same-origin OIDC session — rally's only auth
     // path. The Entra client, session store, and orchestrator now live in
     // `@quynhonsemiconductor/identity`; rally binds `BFF_OPTIONS` from its env config and
-    // adapts the core principal to `req.user` via `RallyBffSessionResolver`.
+    // adapts the core principal to `req.user` via `RovaBffSessionResolver`.
     EntraOidcClient,
     BffSessionStore,
     BffService,
-    RallyBffSessionResolver,
+    RovaBffSessionResolver,
     // Bridge that lets the shared JwtAuthGuard authenticate `/api/*` requests
     // from the BFF session cookie when no Bearer token is present.
-    { provide: BFF_SESSION_RESOLVER, useExisting: RallyBffSessionResolver },
+    { provide: BFF_SESSION_RESOLVER, useExisting: RovaBffSessionResolver },
 
     // Multi-IdP OIDC broker collaborators. BffService picks these up via its
     // @Optional constructor params; the home/legacy path is unaffected when
@@ -120,7 +120,7 @@ import { DrizzleTransactionRunner } from './application/transaction-runner';
     { provide: AUDIT_SERVICE, useExisting: AuditService },
 
     // Product adapters.
-    { provide: CLAIMS_PROVIDER, useClass: RallyClaimsProvider },
+    { provide: CLAIMS_PROVIDER, useClass: RovaClaimsProvider },
     { provide: TRANSACTION_RUNNER, useClass: DrizzleTransactionRunner },
 
     {

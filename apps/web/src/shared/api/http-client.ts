@@ -3,7 +3,7 @@
  * All API calls go through here; never call fetch() directly.
  *
  * Auth model: the browser holds NO tokens. Requests carry the
- * `__Host-rally_session` cookie (sent automatically via `credentials: 'include'`),
+ * `__Host-rova_session` cookie (sent automatically via `credentials: 'include'`),
  * and the API's shared guard resolves + refreshes the underlying access token
  * server-side. A 401 therefore means the session is genuinely dead.
  */

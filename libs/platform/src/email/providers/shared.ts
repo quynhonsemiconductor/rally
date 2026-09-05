@@ -26,7 +26,7 @@ export function resolveFromEmail(config: AppConfigService): string {
  */
 export function buildFromAddress(config: AppConfigService): string {
   const email = resolveFromEmail(config);
-  const name = (config.get('MAIL_FROM_NAME') as string | undefined) ?? 'Mini Rally';
+  const name = (config.get('MAIL_FROM_NAME') as string | undefined) ?? 'Mini Rova';
   return `"${name}" <${email}>`;
 }
 

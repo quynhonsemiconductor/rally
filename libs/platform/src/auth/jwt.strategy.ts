@@ -4,7 +4,7 @@ import { ExtractJwt, Strategy } from 'passport-jwt';
 import { Algorithm } from 'jsonwebtoken';
 import type { JwtPayload as CoreJwtPayload } from '@quynhonsemiconductor/identity';
 import { AppConfigService } from '../config/app-config.service';
-import { toRallyPrincipal } from './rally-principal';
+import { toRovaPrincipal } from './rova-principal';
 
 /**
  * Rally's request-scoped auth principal. Extends the shared `@quynhonsemiconductor/identity`
@@ -44,6 +44,6 @@ export class JwtStrategy extends PassportStrategy(Strategy, 'jwt') {
    * The denylist (Valkey) check happens in the JwtAuthGuard.
    */
   validate(payload: CoreJwtPayload): JwtPayload {
-    return toRallyPrincipal(payload);
+    return toRovaPrincipal(payload);
   }
 }

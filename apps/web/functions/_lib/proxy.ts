@@ -3,7 +3,7 @@
  * the rally SPA. It forwards `/v1/*` (which includes the BFF auth routes
  * `/v1/bff/*`) from the SPA origin (`rally-dev.qnsc.vn`) to the API origin
  * (`rally-api-dev.qnsc.vn`), so the browser sees a single origin. That is what
- * lets the BFF issue a `__Host-rally_session` cookie with `SameSite=Strict` and
+ * lets the BFF issue a `__Host-rova_session` cookie with `SameSite=Strict` and
  * drop CORS entirely.
  *
  * The logic here is pure and framework-agnostic (only web-standard `Request` /

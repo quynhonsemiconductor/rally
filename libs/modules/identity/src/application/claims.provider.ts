@@ -21,7 +21,7 @@ import type { IClaimsProvider, ProductClaims } from '@quynhonsemiconductor/ident
  * to add it.
  */
 @Injectable()
-export class RallyClaimsProvider implements IClaimsProvider {
+export class RovaClaimsProvider implements IClaimsProvider {
   getClaims(): Promise<ProductClaims> {
     return Promise.resolve({});
   }
