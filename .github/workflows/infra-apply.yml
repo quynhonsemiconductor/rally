@@ -149,6 +149,8 @@ jobs:
         run: |
           set -euo pipefail
           tofu apply -input=false -auto-approve \
+            -exclude=module.stack.module.api.data.aws_iam_policy_document.execution_secrets \
+            -exclude=module.stack.module.worker.data.aws_iam_policy_document.execution_secrets \
             -exclude=module.stack.module.firelens_agent_api \
             -exclude=module.stack.module.firelens_agent_worker || true
           tofu apply -input=false -auto-approve
