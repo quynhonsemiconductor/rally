@@ -92,7 +92,7 @@ jobs:
 
       - uses: quynhonsemiconductor/ci/actions/setup-tofu-aws@v1
         with:
-          role-arn: arn:aws:iam::${{ vars.AWS_ACCOUNT_ID }}:role/rally-github-infra-apply
+          role-arn: arn:aws:iam::${{ vars.AWS_ACCOUNT_ID }}:role/rova-github-infra-apply
           aws-region: ${{ env.AWS_REGION }}
           tofu-version: ${{ env.TOFU_VERSION }}
 
@@ -128,7 +128,7 @@ jobs:
 
       - uses: quynhonsemiconductor/ci/actions/setup-tofu-aws@v1
         with:
-          role-arn: arn:aws:iam::${{ vars.AWS_ACCOUNT_ID }}:role/rally-github-infra-apply
+          role-arn: arn:aws:iam::${{ vars.AWS_ACCOUNT_ID }}:role/rova-github-infra-apply
           aws-region: ${{ env.AWS_REGION }}
           tofu-version: ${{ env.TOFU_VERSION }}
 
@@ -142,7 +142,16 @@ jobs:
 
       - name: tofu apply
         working-directory: infra/live/develop
-        run: tofu apply -input=false -auto-approve
+        # Two-pass apply: a large rename shifts secret/config ARNs that gate
+        # count-based resources, which OpenTofu cannot resolve at plan time. Pass 1
+        # excludes those modules to create their dependencies; pass 2 converges.
+        # After the first converged apply this is a normal single-pass no-op.
+        run: |
+          set -euo pipefail
+          tofu apply -input=false -auto-approve \
+            -exclude=module.stack.module.firelens_agent_api \
+            -exclude=module.stack.module.firelens_agent_worker || true
+          tofu apply -input=false -auto-approve
         env:
           TF_VAR_cloudflare_api_token: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           TF_VAR_grafana_alerting_auth: ${{ secrets.GRAFANA_ALERTS_TOKEN }}
@@ -215,7 +224,7 @@ jobs:
 
       - uses: quynhonsemiconductor/ci/actions/setup-tofu-aws@v1
         with:
-          role-arn: arn:aws:iam::${{ vars.AWS_ACCOUNT_ID }}:role/rally-github-infra-apply
+          role-arn: arn:aws:iam::${{ vars.AWS_ACCOUNT_ID }}:role/rova-github-infra-apply
           aws-region: ${{ env.AWS_REGION }}
           tofu-version: ${{ env.TOFU_VERSION }}
 

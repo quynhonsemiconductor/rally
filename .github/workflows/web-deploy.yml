@@ -194,7 +194,7 @@ jobs:
       packages: read
     uses: quynhonsemiconductor/ci/.github/workflows/web-deploy.yml@v1
     with:
-      product: rally
+      product: rova
       # Monorepo: run wrangler from the web package dir so it discovers the
       # file-based Pages Functions (apps/web/functions/**) and bundles the
       # /v1/* BFF reverse-proxy. web_dist_path is relative to working_directory.

@@ -8,7 +8,7 @@ export const CSRF_HEADER = 'x-csrf-token';
  * Path=/ + no Domain, and it is signed, so a subdomain or a non-TLS origin cannot
  * plant one.
  */
-export const CSRF_SECRET_COOKIE = '__Host-rally_csrf';
+export const CSRF_SECRET_COOKIE = '__Host-rova_csrf';
 
 /** Methods that cannot change state, so cannot be the target of a CSRF attack. */
 const SAFE_METHODS: ReadonlySet<string> = new Set(['GET', 'HEAD', 'OPTIONS', 'TRACE']);
@@ -46,7 +46,7 @@ function hasBearerToken(authorization: string | string[] | undefined): boolean {
  * Whether this request must present a valid CSRF token.
  *
  * CSRF is only possible when the browser attaches a credential **ambiently** — for
- * rally, the `__Host-rally_session` cookie. So the check applies exactly when all
+ * rally, the `__Host-rova_session` cookie. So the check applies exactly when all
  * of the following hold:
  *
  *  1. the method can change state;

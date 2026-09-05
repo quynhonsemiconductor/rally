@@ -200,7 +200,7 @@ export const EnvSchema = z
      */
     EMAIL_PROVIDER: z.enum(['ses', 'resend', 'dev']).default('dev'),
     /** Display name that appears in the From header, e.g. "Mini Rally". */
-    MAIL_FROM_NAME: z.string().default('Mini Rally'),
+    MAIL_FROM_NAME: z.string().default('Mini Rova'),
     /** Verified sender address — used by all providers. Required when EMAIL_PROVIDER != 'dev'. */
     MAIL_FROM_EMAIL: z.string().email().optional(),
     /** Required when EMAIL_PROVIDER=resend. */

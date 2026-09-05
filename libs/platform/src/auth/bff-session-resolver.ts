@@ -27,7 +27,7 @@ export interface BffSessionResolver {
  * guard that *reads* it and the controller that *issues* it agree on one value.
  * The `__Host-` prefix pins it to Secure + path=/ + no Domain.
  */
-export const BFF_SESSION_COOKIE = '__Host-rally_session';
+export const BFF_SESSION_COOKIE = '__Host-rova_session';
 
 /** DI token for the optional {@link BffSessionResolver}. */
 export const BFF_SESSION_RESOLVER = Symbol('BFF_SESSION_RESOLVER');

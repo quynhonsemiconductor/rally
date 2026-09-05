@@ -205,7 +205,7 @@ export function useNotificationSse(
     async function connect() {
       reconnectTimer = null
 
-      // Cookie-authenticated via __Host-rally_session (the browser holds no
+      // Cookie-authenticated via __Host-rova_session (the browser holds no
       // token); the shared guard refreshes the access token server-side.
       const headers: Record<string, string> = {}
       if (lastEventId) headers['Last-Event-ID'] = lastEventId

@@ -58,7 +58,7 @@ module "ecr" {
   # untagged and already expirable under the old policy, and ZERO carry a release tag or
   # `latest`. Re-run `aws ecr start-lifecycle-policy-preview` before changing these
   # counts — it is a dry run and it is the only way to see what a policy will delete.
-  repository_names     = ["rally-api", "rally-worker", "rally-migrator"]
+  repository_names     = ["rova-api", "rova-worker", "rova-migrator"]
   image_tag_mutability = "MUTABLE" # allows re-tagging :latest
   kms_key_arn          = data.terraform_remote_state.platform.outputs.kms_key_arn
   tags                 = { Layer = "shared" }
@@ -71,30 +71,30 @@ module "ecr" {
 module "iam_oidc" {
   source = "git::https://github.com/quynhonsemiconductor/tf-modules.git//modules/iam-oidc?ref=iam-oidc-v3.0.1"
 
-  product           = "rally"
+  product           = "rova"
   github_org        = local.github_org
   oidc_provider_arn = data.terraform_remote_state.platform.outputs.oidc_provider_arn
 
   environments = {
     develop = {
       allowed_subjects = [
-        "repo:${local.github_org}/rally:ref:refs/heads/main",
-        "repo:${local.github_org}/rally:environment:develop"
+        "repo:${local.github_org}/rova:ref:refs/heads/main",
+        "repo:${local.github_org}/rova:environment:develop"
       ]
     }
     production = {
       allowed_subjects = [
-        "repo:${local.github_org}/rally:ref:refs/heads/main",
-        "repo:${local.github_org}/rally:ref:refs/tags/v*",
-        "repo:${local.github_org}/rally:environment:production"
+        "repo:${local.github_org}/rova:ref:refs/heads/main",
+        "repo:${local.github_org}/rova:ref:refs/tags/v*",
+        "repo:${local.github_org}/rova:environment:production"
       ]
     }
   }
 
-  app_repo_names         = ["rally"] # monorepo: was rally-api
-  infra_repo_name        = "rally"   # monorepo: infra lives in rally/infra/
-  ecr_repository_pattern = "rally-*"
-  ecs_passrole_pattern   = "rally-*" # shared ecs-service names roles <cluster>-<service>-task
+  app_repo_names         = ["rova"] # monorepo: was rally-api
+  infra_repo_name        = "rova"   # monorepo: infra lives in rally/infra/
+  ecr_repository_pattern = "rova-*"
+  ecs_passrole_pattern   = "rova-*" # shared ecs-service names roles <cluster>-<service>-task
   tags                   = { Layer = "shared" }
 
   # infra_plan_subjects / infra_apply_subjects: rally's infra-apply jobs run in
@@ -140,12 +140,12 @@ module "iam_oidc" {
 # would then be unable to apply/destroy independently of develop's RDS
 # lifecycle. An ARN string doesn't require the resource to exist.
 locals {
-  rally_develop_rds_arn = "arn:aws:rds:ap-southeast-1:${data.aws_caller_identity.current.account_id}:db:rally-develop"
+  rally_develop_rds_arn = "arn:aws:rds:ap-southeast-1:${data.aws_caller_identity.current.account_id}:db:rova-develop"
   rally_prod_rds_arn    = "arn:aws:rds:ap-southeast-1:${data.aws_caller_identity.current.account_id}:db:rally-prod"
 }
 
 resource "aws_iam_role_policy" "deploy_rds_dev_guard" {
-  name = "rally-deploy-develop-rds-guard"
+  name = "rova-deploy-develop-rds-guard"
   role = split("/", module.iam_oidc.deploy_role_arns["develop"])[1]
 
   policy = jsonencode({
@@ -184,7 +184,7 @@ resource "aws_iam_role_policy" "deploy_rds_dev_guard" {
 # running continuously, a deploy role able to start a stopped database is again the
 # exception it used to be, and its absence is what makes an accidental stop loud.
 resource "aws_iam_role_policy" "deploy_rds_prod_guard" {
-  name = "rally-deploy-prod-rds-guard"
+  name = "rova-deploy-prod-rds-guard"
   role = split("/", module.iam_oidc.deploy_role_arns["production"])[1]
 
   policy = jsonencode({
@@ -243,11 +243,11 @@ resource "aws_iam_role_policy" "deploy_rds_prod_guard" {
 # resource, and Require is SES's own default for a domain-verified identity anyway.
 resource "aws_sesv2_configuration_set" "email_feedback" {
   # `configuration_set_name`, not `name`: the pinned provider version predates the rename.
-  configuration_set_name = "rally-email-feedback"
+  configuration_set_name = "rova-email-feedback"
 }
 
 resource "aws_sns_topic" "ses_bounce_events" {
-  name = "rally-ses-bounce-events"
+  name = "rova-ses-bounce-events"
 }
 
 resource "aws_sesv2_configuration_set_event_destination" "bounces" {
@@ -264,7 +264,7 @@ resource "aws_sesv2_configuration_set_event_destination" "bounces" {
 }
 
 resource "aws_sqs_queue" "ses_bounce_feedback" {
-  name = "rally-ses-bounce-feedback"
+  name = "rova-ses-bounce-feedback"
 }
 
 resource "aws_sns_topic_subscription" "ses_bounce_to_sqs" {

@@ -45,7 +45,7 @@ jobs:
       packages: read
     uses: quynhonsemiconductor/ci/.github/workflows/security.yml@v1
     with:
-      product: rally
+      product: rova
       image_target: api
       # Semgrep runs report-only for now: the current 23 findings are all in
       # shared infra/config (workflow action tags, dependabot/pnpm/npm supply-

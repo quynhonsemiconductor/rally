@@ -29,7 +29,7 @@ jobs:
   plan:
     uses: quynhonsemiconductor/ci/.github/workflows/infra-plan.yml@v1
     with:
-      product: rally
+      product: rova
       # Mirror the apply-time NON-secret TF_VARs so plan ≈ apply. Without
       # cloudflare_account_id the count-gated Cloudflare Pages module resolves to
       # 0, so every plan shows a phantom `module.web[0]` destroy; without the

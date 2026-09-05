@@ -77,15 +77,15 @@ module "stack" {
     aws.us_east_1 = aws.us_east_1
   }
 
-  product  = "rally"
+  product  = "rova"
   env      = "develop"
   env_slug = "develop"
   region   = local.region
 
-  app_domain = "rally-dev.qnsc.vn"
-  api_domain = "rally-api-dev.qnsc.vn"
-  web_record = "rally-dev"
-  api_record = "rally-api-dev"
+  app_domain = "rova-dev.qnsc.vn"
+  api_domain = "rova-api-dev.qnsc.vn"
+  web_record = "rova-dev"
+  api_record = "rova-api-dev"
 
   shared_state_key  = "rally/shared/terraform.tfstate"
   runtime_state_key = "platform/runtime-dev/terraform.tfstate"

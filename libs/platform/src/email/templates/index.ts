@@ -87,7 +87,7 @@ function layout(title: string, preheader: string, bodyHtml: string): string {
                 <span style="color:#fff;font-size:17px;font-weight:700;line-height:34px;">R</span>
               </td>
               <td style="padding-left:10px;vertical-align:middle;">
-                <span style="font-size:15px;font-weight:600;color:#1a2234;">Mini Rally</span>
+                <span style="font-size:15px;font-weight:600;color:#1a2234;">Mini Rova</span>
                 <br/>
                 <span style="font-size:10px;color:#8c94a6;">Work Management Platform</span>
               </td>
@@ -101,7 +101,7 @@ function layout(title: string, preheader: string, bodyHtml: string): string {
           <table width="100%" cellpadding="0" cellspacing="0" role="presentation" style="border-top:1px solid #edf0f4;">
             <tr><td style="padding:18px 32px;text-align:center;">
               <span style="font-size:10px;color:#8c94a6;">
-                © 2026 Mini Rally · Internal workspace · 
+                © 2026 Mini Rova · Internal workspace · 
                 <a href="#" style="color:#8c94a6;text-decoration:none;">Privacy</a>
               </span>
             </td></tr>
