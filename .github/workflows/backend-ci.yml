@@ -198,7 +198,7 @@ jobs:
           SSO_ALLOWED_EMAIL_DOMAINS: qnsc.vn
 
       # Prove the least-privilege grants from migration 0068 are COMPLETE, by
-      # running the whole e2e suite as `rally_app` instead of the superuser.
+      # running the whole e2e suite as `rova_app` instead of the superuser.
       #
       # Without this the split is untested: every job above connects as
       # `postgres`, which owns everything, so a schema or sequence the migration
@@ -208,13 +208,13 @@ jobs:
       # Same script the deployed cutover runs as a one-off migrator task, so what
       # CI exercises here is the code path production uses (see
       # docs/runbooks/db-role-least-privilege.md). Only DATABASE_APP_PASSWORD is
-      # set: `rally_worker` is skipped because nothing in the e2e suite connects
+      # set: `rova_worker` is skipped because nothing in the e2e suite connects
       # as it.
       - name: Enable the least-privilege role for the e2e run
         run: pnpm db:roles:enable
         env:
           DATABASE_MIGRATION_URL: postgresql://postgres:postgres@localhost:5432/rally_test?sslmode=disable
-          DATABASE_APP_PASSWORD: rally_app
+          DATABASE_APP_PASSWORD: rova_app
 
       - name: E2E tests
         run: pnpm test:e2e
@@ -222,7 +222,7 @@ jobs:
           NODE_ENV: test
           # The APP connects as the restricted role, the MIGRATOR as the owner —
           # the same split infra/modules/stack/main.tf gets at cutover.
-          DATABASE_URL: postgresql://rally_app:rally_app@localhost:5432/rally_test?sslmode=disable
+          DATABASE_URL: postgresql://rova_app:rova_app@localhost:5432/rally_test?sslmode=disable
           DATABASE_MIGRATION_URL: postgresql://postgres:postgres@localhost:5432/rally_test?sslmode=disable
           REDIS_URL: redis://localhost:6379
           JWT_PRIVATE_KEY: ${{ env.CI_JWT_PRIVATE_KEY }}

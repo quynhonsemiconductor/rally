@@ -4,7 +4,7 @@
  *
  * WHY THIS EXISTS
  *
- * `backend-ci.yml` runs this whole suite as `rally_app` rather than the superuser,
+ * `backend-ci.yml` runs this whole suite as `rova_app` rather than the superuser,
  * specifically so that anything the restricted role cannot do fails CI instead of a
  * deployed environment. That gate silently proved nothing about storage, because no
  * spec in this directory touched a file, an attachment, an avatar or a workspace
@@ -82,7 +82,7 @@ describe('file storage (e2e)', () => {
     ).toEqual([]);
   });
 
-  /** The insert RLS refused. Fails as `rally_app` if a policy ever comes back. */
+  /** The insert RLS refused. Fails as `rova_app` if a policy ever comes back. */
   it('writes and reads back a file row as the connected role', async () => {
     const id = randomUUID();
     const created = await files.create({
