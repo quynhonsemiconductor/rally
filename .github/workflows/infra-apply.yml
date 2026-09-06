@@ -153,7 +153,13 @@ jobs:
             -exclude=module.stack.module.worker.data.aws_iam_policy_document.execution_secrets \
             -exclude=module.stack.module.firelens_agent_api \
             -exclude=module.stack.module.firelens_agent_worker || true
-          tofu apply -input=false -auto-approve
+          # -refresh=false on the converge pass: the RDS subnet group carries a
+          # permanent cosmetic name divergence (the instance sits in a same-VPC
+          # group AWS refuses to swap in place, InvalidVPCNetworkStateFault). State
+          # already holds the desired name, so refreshing only re-detects an
+          # unfixable diff and fails the apply. Skipping refresh keeps the apply
+          # convergent; real drift is still caught by the plan job on PRs.
+          tofu apply -refresh=false -input=false -auto-approve
         env:
           TF_VAR_cloudflare_api_token: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           TF_VAR_grafana_alerting_auth: ${{ secrets.GRAFANA_ALERTS_TOKEN }}
