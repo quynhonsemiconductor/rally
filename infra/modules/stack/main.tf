@@ -477,8 +477,8 @@ module "otel_agent_worker" {
 # otel_agent.
 #
 # service_name MUST match the app's own hardcoded OTel service name exactly
-# (app.module.ts / worker.module.ts's `serviceName: 'rally-api'` /
-# `'rally-worker'`) — there is no shared var on the app side to read from, so
+# (app.module.ts / worker.module.ts's `serviceName: 'rova-api'` /
+# `'rova-worker'`) — there is no shared var on the app side to read from, so
 # a mismatch here doesn't error, it silently creates a THIRD service_name in
 # Grafana that nothing else uses. product/env mirror otel_agent_{api,worker}
 # above exactly, for the same reason: logs, metrics and traces must agree on
@@ -486,7 +486,7 @@ module "otel_agent_worker" {
 module "firelens_agent_api" {
   source = "git::https://github.com/quynhonsemiconductor/tf-modules.git//modules/firelens-agent?ref=firelens-agent-v0.2.1"
 
-  service_name     = "rally-api"
+  service_name     = "rova-api"
   product          = var.product
   env              = var.env
   otlp_endpoint    = var.observability.otlp_endpoint
@@ -499,7 +499,7 @@ module "firelens_agent_api" {
 module "firelens_agent_worker" {
   source = "git::https://github.com/quynhonsemiconductor/tf-modules.git//modules/firelens-agent?ref=firelens-agent-v0.2.1"
 
-  service_name     = "rally-worker"
+  service_name     = "rova-worker"
   product          = var.product
   env              = var.env
   otlp_endpoint    = var.observability.otlp_endpoint

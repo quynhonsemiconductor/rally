@@ -66,6 +66,6 @@ const HTTP_DURATION_BOUNDARIES_MS = [
 ];
 
 startOtel({
-  defaultServiceName: 'rally-api',
+  defaultServiceName: 'rova-api',
   httpDurationBoundaries: HTTP_DURATION_BOUNDARIES_MS,
 });

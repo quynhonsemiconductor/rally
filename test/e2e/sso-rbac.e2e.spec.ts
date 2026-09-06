@@ -7,7 +7,7 @@
  * the matrix can tell "deliberately not a flow" from "untraced".
  *
  * This boots the REAL rally `AppModule` (real Nest DI, real Drizzle against the
- * seeded `rally-postgres`) and drives the REAL `@quynhonsemiconductor/identity` `AuthService`.
+ * seeded `rova-postgres`) and drives the REAL `@quynhonsemiconductor/identity` `AuthService`.
  * The ONLY thing stubbed is the Entra token signature check
  * (`EntraTokenVerifier.verify`) — we cannot mint a Microsoft-signed JWT locally,
  * so the stub returns the `EntraClaims` a genuine verified token would yield.

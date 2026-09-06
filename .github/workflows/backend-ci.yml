@@ -102,7 +102,7 @@ jobs:
         env:
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: postgres
-          POSTGRES_DB: rally_test
+          POSTGRES_DB: rova_test
         ports: ['5432:5432']
         options: >-
           --health-cmd pg_isready
@@ -150,7 +150,7 @@ jobs:
       - name: Run migrations
         run: pnpm db:migrate
         env:
-          DATABASE_MIGRATION_URL: postgresql://postgres:postgres@localhost:5432/rally_test?sslmode=disable
+          DATABASE_MIGRATION_URL: postgresql://postgres:postgres@localhost:5432/rova_test?sslmode=disable
           # db:migrate also runs seedTenantBootstrap, which only creates the
           # primary Entra SSO connection when ENTRA_TENANT_ID is set. The SSO
           # → RBAC e2e (test/e2e/sso-rbac.e2e.spec.ts) needs that connection to
@@ -162,7 +162,7 @@ jobs:
         run: pnpm test:cov
         env:
           NODE_ENV: test
-          DATABASE_URL: postgresql://postgres:postgres@localhost:5432/rally_test?sslmode=disable
+          DATABASE_URL: postgresql://postgres:postgres@localhost:5432/rova_test?sslmode=disable
           REDIS_URL: redis://localhost:6379
           JWT_PRIVATE_KEY: ${{ env.CI_JWT_PRIVATE_KEY }}
           JWT_PUBLIC_KEY: ${{ env.CI_JWT_PUBLIC_KEY }}
@@ -193,7 +193,7 @@ jobs:
         run: pnpm db:seed:test
         env:
           NODE_ENV: test
-          DATABASE_URL: postgresql://postgres:postgres@localhost:5432/rally_test?sslmode=disable
+          DATABASE_URL: postgresql://postgres:postgres@localhost:5432/rova_test?sslmode=disable
           ENTRA_TENANT_ID: dev-tenant
           SSO_ALLOWED_EMAIL_DOMAINS: qnsc.vn
 
@@ -213,7 +213,7 @@ jobs:
       - name: Enable the least-privilege role for the e2e run
         run: pnpm db:roles:enable
         env:
-          DATABASE_MIGRATION_URL: postgresql://postgres:postgres@localhost:5432/rally_test?sslmode=disable
+          DATABASE_MIGRATION_URL: postgresql://postgres:postgres@localhost:5432/rova_test?sslmode=disable
           DATABASE_APP_PASSWORD: rova_app
 
       - name: E2E tests
@@ -222,8 +222,8 @@ jobs:
           NODE_ENV: test
           # The APP connects as the restricted role, the MIGRATOR as the owner —
           # the same split infra/modules/stack/main.tf gets at cutover.
-          DATABASE_URL: postgresql://rova_app:rova_app@localhost:5432/rally_test?sslmode=disable
-          DATABASE_MIGRATION_URL: postgresql://postgres:postgres@localhost:5432/rally_test?sslmode=disable
+          DATABASE_URL: postgresql://rova_app:rova_app@localhost:5432/rova_test?sslmode=disable
+          DATABASE_MIGRATION_URL: postgresql://postgres:postgres@localhost:5432/rova_test?sslmode=disable
           REDIS_URL: redis://localhost:6379
           JWT_PRIVATE_KEY: ${{ env.CI_JWT_PRIVATE_KEY }}
           JWT_PUBLIC_KEY: ${{ env.CI_JWT_PUBLIC_KEY }}
@@ -427,7 +427,7 @@ jobs:
         env:
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: postgres
-          POSTGRES_DB: rally_openapi
+          POSTGRES_DB: rova_openapi
         ports: ['5432:5432']
         options: --health-cmd pg_isready --health-interval 5s --health-retries 10
       redis:
@@ -465,7 +465,7 @@ jobs:
       - name: Run migrations
         run: pnpm db:migrate
         env:
-          DATABASE_MIGRATION_URL: postgresql://postgres:postgres@localhost:5432/rally_openapi?sslmode=disable
+          DATABASE_MIGRATION_URL: postgresql://postgres:postgres@localhost:5432/rova_openapi?sslmode=disable
 
       - name: Build app
         run: pnpm build:api
@@ -494,7 +494,7 @@ jobs:
           # The spec is only served when Swagger is explicitly enabled (it no
           # longer piggybacks on NODE_ENV), so this job must opt in.
           SWAGGER_ENABLED: 'true'
-          DATABASE_URL: postgresql://postgres:postgres@localhost:5432/rally_openapi?sslmode=disable
+          DATABASE_URL: postgresql://postgres:postgres@localhost:5432/rova_openapi?sslmode=disable
           REDIS_URL: redis://localhost:6379
           JWT_PRIVATE_KEY: ${{ env.CI_JWT_PRIVATE_KEY }}
           JWT_PUBLIC_KEY: ${{ env.CI_JWT_PUBLIC_KEY }}

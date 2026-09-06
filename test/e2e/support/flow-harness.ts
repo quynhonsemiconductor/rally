@@ -2,7 +2,7 @@
  * Shared bootstrap + fixtures for the BA business-flow E2E suite.
  *
  * These specs boot the REAL rally `AppModule` (real Nest DI, real Drizzle
- * against the seeded `rally-postgres`) and drive the REAL application services,
+ * against the seeded `rova-postgres`) and drive the REAL application services,
  * exactly as the HTTP controllers do. Nothing is stubbed: the flows are proven
  * end-to-end against the same code and database the running server uses.
  *
@@ -155,8 +155,8 @@ export function makeActor(userId: string, permissions: string[] = []): JwtPayloa
     claims: { permissions },
     sessionId: 'e2e-session',
     jti: 'e2e-jti',
-    iss: 'rally-e2e',
-    aud: 'rally',
+    iss: 'rova-e2e',
+    aud: 'rova',
     iat: 0,
     exp: 0,
     authMethod: 'sso',

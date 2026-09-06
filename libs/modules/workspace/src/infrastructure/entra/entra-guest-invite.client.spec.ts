@@ -18,7 +18,7 @@ const CONFIG: Record<string, unknown> = {
   ENTRA_TENANT_ID: 'tenant-1',
   ENTRA_CLIENT_ID: 'client-1',
   ENTRA_CLIENT_SECRET: 'secret-1',
-  APP_BASE_URL: 'https://rally.example',
+  APP_BASE_URL: 'https://rova.example',
 };
 
 function makeConfig(overrides: Record<string, unknown> = {}): AppConfigService {
@@ -110,7 +110,7 @@ describe('EntraGuestInviteClient', () => {
       expect(JSON.parse(bodyOf(graphInit))).toEqual({
         invitedUserEmailAddress: 'dana@partner.example',
         // The SPA origin, not the tokenized accept link: this relay holds only the token's hash.
-        inviteRedirectUrl: 'https://rally.example',
+        inviteRedirectUrl: 'https://rova.example',
         // Rally sends its own invitation email — two would be two calls to action for one invite.
         sendInvitationMessage: false,
       });

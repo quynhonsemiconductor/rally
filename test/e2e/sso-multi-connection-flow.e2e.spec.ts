@@ -1,7 +1,7 @@
 /**
  * Multi-IdP OIDC broker — connection resolution, connection-driven provisioning,
  * and the disabled-connection cutoff, against the REAL rally AppModule + seeded
- * `rally-postgres`.
+ * `rova-postgres`.
  *
  * The broker's expensive I/O (OIDC discovery + Secrets Manager) is exercised by
  * the package's unit tests; here we prove the parts that touch the real DB and
@@ -49,7 +49,7 @@ const INVITED_EMAIL = 'guest@shared-e2e.test';
 const BROKER = {
   authorityUrl: 'https://idp.example.test/x',
   clientId: 'e2e-cid',
-  clientSecretRef: 'rally/test/sso/e2e',
+  clientSecretRef: 'rova/test/sso/e2e',
 } as const;
 
 interface DecodedToken {

@@ -102,7 +102,7 @@ function makeConfig(enabled = true): AppConfigService {
   return {
     get: vi.fn((key: string) => {
       if (key === 'ENTRA_GUEST_INVITE_ENABLED') return enabled;
-      if (key === 'APP_BASE_URL') return 'https://rally.example';
+      if (key === 'APP_BASE_URL') return 'https://rova.example';
       return undefined;
     }),
   } as unknown as AppConfigService;
@@ -204,7 +204,7 @@ describe('EntraGuestInviteRelayService', () => {
         idempotencyKey: 'inv-1',
       });
       expect(payload.vars).toMatchObject({
-        inviteUrl: `https://rally.example/accept-invitation?token=${RAW_TOKEN}`,
+        inviteUrl: `https://rova.example/accept-invitation?token=${RAW_TOKEN}`,
         workspaceName: 'NextGen',
         recipientEmail: 'dana@partner.example',
       });

@@ -21,7 +21,7 @@
  * (and back) across an admin action, on the SAME bearer token.
  *
  * This boots the REAL `AppModule` (real Nest DI, real Drizzle against the seeded
- * `rally-postgres`, real Valkey) and drives REAL HTTP requests through
+ * `rova-postgres`, real Valkey) and drives REAL HTTP requests through
  * `app.inject()`, so the guard chain, the cached resolution and the route all run
  * exactly as in production. The ONLY stub is the Microsoft signature check
  * (`EntraTokenVerifier.verify`), which cannot be satisfied locally.

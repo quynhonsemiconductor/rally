@@ -102,8 +102,8 @@ ALTER ROLE rally_app LOGIN PASSWORD 'rally_app';
 ```
 ```bash
 # .env — app as the restricted role, migrations as the owner
-DATABASE_URL=postgresql://rally_app:rally_app@localhost:5432/rally_dev?sslmode=disable
-DATABASE_MIGRATION_URL=postgresql://postgres:postgres@localhost:5432/rally_dev?sslmode=disable
+DATABASE_URL=postgresql://rally_app:rally_app@localhost:5432/rova_dev?sslmode=disable
+DATABASE_MIGRATION_URL=postgresql://postgres:postgres@localhost:5432/rova_dev?sslmode=disable
 ```
 
 ## Cutover

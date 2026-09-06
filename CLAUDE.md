@@ -232,7 +232,7 @@ not a function`, so use `AuthService.devLogin` for a bearer token), the **Valida
      `Email address not verified "Mini Rally" <>`, and after three failures the email circuit
      breaker opens and stays open for the process — so the relay never delivers and the test waits
      out its 10s. Set `MAIL_FROM_EMAIL` and verify it in localstack:
-     `docker exec -i rally-localstack awslocal ses verify-email-identity --email-address <addr>`.
+     `docker exec -i rova-localstack awslocal ses verify-email-identity --email-address <addr>`.
      (The breaker is in-process, so restarting the API clears it; the failed rows are not retried
      and can be deleted.)
   2. **A live worker is a competing consumer** of `messaging.notification_outbox` and claims the

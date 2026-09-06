@@ -1,9 +1,9 @@
 services:
   postgres:
     image: postgres:17-alpine
-    container_name: rally-postgres
+    container_name: rova-postgres
     environment:
-      POSTGRES_DB: rally_dev
+      POSTGRES_DB: rova_dev
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
     ports:
@@ -19,7 +19,7 @@ services:
 
   valkey:
     image: valkey/valkey:8-alpine
-    container_name: rally-valkey
+    container_name: rova-valkey
     ports:
       - '6379:6379'
     healthcheck:
@@ -33,7 +33,7 @@ services:
   # Production AWS resources live in the rally-infra repo (Terraform).
   localstack:
     image: localstack/localstack:4
-    container_name: rally-localstack
+    container_name: rova-localstack
     environment:
       AWS_DEFAULT_REGION: ap-southeast-1
       PERSISTENCE: 1
@@ -57,7 +57,7 @@ services:
 
   otel:
     image: otel/opentelemetry-collector-contrib:0.140.1
-    container_name: rally-otel
+    container_name: rova-otel
     command: ['--config=/etc/otel/collector.yaml']
     volumes:
       - ./scripts/otel/collector.yaml:/etc/otel/collector.yaml:ro

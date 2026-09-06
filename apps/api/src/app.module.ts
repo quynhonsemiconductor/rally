@@ -38,7 +38,7 @@ import { AsyncLocalStorageMiddleware } from '@platform/context/als.middleware';
       inject: [AppConfigService],
       useFactory: (config: AppConfigService) =>
         createLoggerOptions({
-          serviceName: 'rally-api',
+          serviceName: 'rova-api',
           nodeEnv: config.get('NODE_ENV'),
           serviceVersion: config.get('SERVICE_VERSION'),
           level: config.get('LOG_LEVEL'),

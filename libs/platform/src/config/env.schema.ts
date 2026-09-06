@@ -58,7 +58,7 @@ export const EnvSchema = z
       .string()
       .url('REDIS_URL must be a URL — rediss:// against the deployed cache, redis:// locally')
       .min(1, 'REDIS_URL is required: there is deliberately no localhost fallback'),
-    REDIS_KEY_PREFIX: z.string().default('rally:'),
+    REDIS_KEY_PREFIX: z.string().default('rova:'),
 
     // JWT — keys may be raw PEM or base64-encoded PEM
     JWT_PRIVATE_KEY: z
@@ -70,7 +70,7 @@ export const EnvSchema = z
      * OPTIONAL — derived from JWT_PRIVATE_KEY when absent (see the transform at the
      * bottom of this file). Supply it only to override, e.g. a local .env that already
      * has a pair. Nothing needs it configured: an ES256 public key is a pure function
-     * of its private key, and rally publishes no JWKS, so no verifier exists that
+     * of its private key, and rova publishes no JWKS, so no verifier exists that
      * lacks the private key.
      */
     JWT_PUBLIC_KEY: z
@@ -81,8 +81,8 @@ export const EnvSchema = z
       .optional(),
     JWT_ACCESS_EXPIRY: z.string().default('15m'),
     JWT_REFRESH_EXPIRY: z.string().default('30d'),
-    JWT_ISSUER: z.string().default('rally-api'),
-    JWT_AUDIENCE: z.string().default('rally-web'),
+    JWT_ISSUER: z.string().default('rova-api'),
+    JWT_AUDIENCE: z.string().default('rova-web'),
 
     // Cookie signing. Distinct from CSRF_SECRET on purpose: this one signs every
     // cookie rally sets, so rotating it invalidates all of them. Sharing one value
@@ -147,7 +147,7 @@ export const EnvSchema = z
     AWS_ACCESS_KEY_ID: z.string().optional(),
     AWS_SECRET_ACCESS_KEY: z.string().optional(),
     /** PRIVATE bucket — every permission-gated upload. Served only via presigned GET. */
-    S3_ATTACHMENTS_BUCKET: z.string().default('rally-attachments'),
+    S3_ATTACHMENTS_BUCKET: z.string().default('rova-attachments'),
 
     /**
      * PUBLIC bucket — non-sensitive assets only (avatars, workspace logos). World-
@@ -212,8 +212,8 @@ export const EnvSchema = z
 
     // Observability
     OTEL_ENABLED: booleanish(false),
-    OTEL_SERVICE_NAME: z.string().default('rally-api'),
-    OTEL_WORKER_SERVICE_NAME: z.string().default('rally-worker'),
+    OTEL_SERVICE_NAME: z.string().default('rova-api'),
+    OTEL_WORKER_SERVICE_NAME: z.string().default('rova-worker'),
     OTEL_EXPORTER_OTLP_ENDPOINT: z.string().default('http://localhost:4318'),
     /** 0.0–1.0 fraction of root spans to sample. Defaults: 1.0 dev, 0.1 prod. */
     OTEL_SAMPLING_PROBABILITY: z.coerce.number().min(0).max(1).optional(),
@@ -302,7 +302,7 @@ export const EnvSchema = z
      */
     IDENTITY_REDIRECT_URI: z.string().url().optional(),
     /**
-     * Multi-IdP broker: Secrets Manager ref (name/ARN, e.g. `rally/${env}/sso/home`)
+     * Multi-IdP broker: Secrets Manager ref (name/ARN, e.g. `rova/${env}/sso/home`)
      * holding the HOME Entra client secret for the broker path. When unset the home
      * connection is seeded without a secret ref and only the legacy home flow works.
      */

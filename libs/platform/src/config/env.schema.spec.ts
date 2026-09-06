@@ -9,7 +9,7 @@ const publicPem = publicKey.export({ type: 'spki', format: 'pem' }).toString();
 /** Minimum that satisfies the rest of the schema, so these tests isolate the key pair. */
 function env(overrides: Record<string, string> = {}) {
   return {
-    DATABASE_URL: 'postgres://u:p@localhost:5432/rally',
+    DATABASE_URL: 'postgres://u:p@localhost:5432/rova',
     REDIS_URL: 'redis://localhost:6379',
     JWT_PRIVATE_KEY: privatePem,
     CSRF_SECRET: 'x'.repeat(32),
@@ -17,7 +17,7 @@ function env(overrides: Record<string, string> = {}) {
     ENTRA_TENANT_ID: 'tenant',
     ENTRA_CLIENT_ID: 'client',
     ENTRA_CLIENT_SECRET: 'secret',
-    ENTRA_REDIRECT_URI: 'https://rally.example/v1/bff/callback',
+    ENTRA_REDIRECT_URI: 'https://rova.example/v1/bff/callback',
     ...overrides,
   };
 }

@@ -66,7 +66,7 @@ function extractKey(secretString: string, secretId: string, jsonKey: string): st
 /**
  * Resolves per-connection OIDC client secrets from AWS Secrets Manager — the
  * infra's paved path for sensitive values (CMK-encrypted; created empty in IaC,
- * value set out-of-band). Secrets live under `rally/${env}/sso/*`. Fetched at
+ * value set out-of-band). Secrets live under `rova/${env}/sso/*`. Fetched at
  * use by the ECS task role (runtime), in-memory TTL-cached.
  *
  * Accepts BOTH forms the secrets module's `secret_arns` output emits: a plain ARN when

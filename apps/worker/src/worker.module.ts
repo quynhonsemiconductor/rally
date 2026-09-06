@@ -34,7 +34,7 @@ import { ScmBackfillRelayService } from './scm/scm-backfill-relay.service';
       inject: [AppConfigService],
       useFactory: (config: AppConfigService) =>
         createLoggerOptions({
-          serviceName: 'rally-worker',
+          serviceName: 'rova-worker',
           nodeEnv: config.get('NODE_ENV'),
           serviceVersion: config.get('SERVICE_VERSION'),
           level: config.get('LOG_LEVEL'),

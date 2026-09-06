@@ -22,8 +22,8 @@
  * BOUNDARY, not by whether the word "login" appears in the path.
  */
 
-export const RATE_LIMIT_METADATA_KEY = 'rally:rate_limit:tier';
-export const SKIP_RATE_LIMIT_KEY = 'rally:rate_limit:skip';
+export const RATE_LIMIT_METADATA_KEY = 'rova:rate_limit:tier';
+export const SKIP_RATE_LIMIT_KEY = 'rova:rate_limit:skip';
 
 export const RATE_LIMIT_TIERS = {
   /** All routes without an explicit @RateLimit() decorator: 100 req/min */

@@ -26,7 +26,7 @@ provider "aws" {
   region = "ap-southeast-1"
   default_tags {
     tags = {
-      Project     = "rally"
+      Project     = "rova"
       Environment = "develop"
       ManagedBy   = "opentofu"
     }
@@ -57,7 +57,7 @@ provider "aws" {
   region = "us-east-1"
   default_tags {
     tags = {
-      Project     = "rally"
+      Project     = "rova"
       Environment = "develop"
       ManagedBy   = "opentofu"
     }

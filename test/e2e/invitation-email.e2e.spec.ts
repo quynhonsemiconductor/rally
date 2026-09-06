@@ -13,7 +13,7 @@
  * the workspace name the template needs. It cannot assert delivery — that is a verified identity, an
  * IAM grant and the SES sandbox, none of which exist in a unit-test database. Those are asserted by
  * `infra/` and checked by hand (`aws sesv2 get-account --query ProductionAccessEnabled`); locally,
- * `docker exec rally-localstack awslocal ses verify-email-identity` plus the worker's relay is what
+ * `docker exec rova-localstack awslocal ses verify-email-identity` plus the worker's relay is what
  * makes the send observable.
  *
  * NOTE FOR THE NEXT READER: there USED to be an ORPHANED `InvitationService` in this module with its
