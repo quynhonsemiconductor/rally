@@ -395,16 +395,16 @@
       "connecting": "Connecting…",
       "disconnect": "Disconnect",
       "disconnectTitle": "Disconnect {{name}}?",
-      "disconnectMessage": "Rally stops receiving events from this installation and its discovered repositories are deactivated. Existing links on work items are kept. You can reconnect at any time.",
+      "disconnectMessage": "Rova stops receiving events from this installation and its discovered repositories are deactivated. Existing links on work items are kept. You can reconnect at any time.",
       "empty": {
         "title": "No GitHub organization connected",
-        "description": "Install the Rally GitHub App on your organization, then connect it here — every repository it can access appears automatically and starts syncing."
+        "description": "Install the Rova GitHub App on your organization, then connect it here — every repository it can access appears automatically and starts syncing."
       }
     },
     "connectDialog": {
       "title": "Connect a GitHub organization",
-      "description": "Pick an installation of the Rally GitHub App. Its repositories are discovered automatically and back-filled.",
-      "empty": "No available installations. Install the Rally GitHub App on your organization first, then reopen this dialog.",
+      "description": "Pick an installation of the Rova GitHub App. Its repositories are discovered automatically and back-filled.",
+      "empty": "No available installations. Install the Rova GitHub App on your organization first, then reopen this dialog.",
       "connected": "Already connected",
       "connect": "Connect",
       "loading": "Loading installations…"
@@ -477,7 +477,7 @@
       "loadError": "Could not load your tokens",
       "empty": {
         "title": "No API tokens",
-        "description": "Create one to let a script, a CI job or an integration call Rally as you."
+        "description": "Create one to let a script, a CI job or an integration call Rova as you."
       }
     },
     "col": {
@@ -518,7 +518,7 @@
     },
     "created": {
       "title": "Token created",
-      "warning": "Copy it now. Rally stores only a hash, so this is the one and only time it can be shown — a lost token is revoked and replaced, not recovered.",
+      "warning": "Copy it now. Rova stores only a hash, so this is the one and only time it can be shown — a lost token is revoked and replaced, not recovered.",
       "label": "Token for {{name}}",
       "copy": "Copy token",
       "usage": "Send it as a bearer token: Authorization: Bearer <token>",

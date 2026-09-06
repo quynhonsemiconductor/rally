@@ -199,7 +199,7 @@ export const EnvSchema = z
      * 'resend' requires RESEND_API_KEY + a verified domain in the Resend dashboard.
      */
     EMAIL_PROVIDER: z.enum(['ses', 'resend', 'dev']).default('dev'),
-    /** Display name that appears in the From header, e.g. "Mini Rally". */
+    /** Display name that appears in the From header, e.g. "Mini Rova". */
     MAIL_FROM_NAME: z.string().default('Mini Rova'),
     /** Verified sender address — used by all providers. Required when EMAIL_PROVIDER != 'dev'. */
     MAIL_FROM_EMAIL: z.string().email().optional(),
@@ -379,7 +379,7 @@ export const EnvSchema = z
      *
      * `MAIL_FROM_EMAIL` said "Required when EMAIL_PROVIDER != 'dev'" in its own comment and was
      * `.optional()` in the schema, so nothing enforced it. Unset, `resolveFromEmail()` returns `''`
-     * and every message goes out as `"Mini Rally" <>`: SES rejects each one with
+     * and every message goes out as `"Mini Rova" <>`: SES rejects each one with
      * `Email address not verified`, three failures open the email circuit breaker, and it stays open
      * for the life of the process. The task boots healthy and reports healthy — invitations,
      * notifications and password resets simply never arrive.

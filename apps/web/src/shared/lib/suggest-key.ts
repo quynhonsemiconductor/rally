@@ -6,7 +6,7 @@
  *
  *   • `initials` — a TEAM key. `Core Platform` gives `CP`, which is exactly what the Create-team form
  *     shows as its placeholder. A team key is a short badge beside a name that is already on screen.
- *   • `prefix` — a PROJECT key. `Mini Rally` gives `MINI`, the behaviour the project form has always
+ *   • `prefix` — a PROJECT key. `Mini Rova` gives `MINI`, the behaviour the project form has always
  *     had. A project key prefixes every item id in it (`US-1`), so it reads as a word rather than as
  *     initials, and changing it would rewrite what a familiar form suggests.
  *

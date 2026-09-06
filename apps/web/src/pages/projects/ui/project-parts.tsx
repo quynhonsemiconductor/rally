@@ -329,7 +329,7 @@ export function NewProjectModal({
 
   // The shared rule, so a third form cannot hand-roll a third one — which is how the Create-team form
   // came to have a required key field with nothing filling it in. `prefix` keeps exactly what this
-  // form has always suggested (`Mini Rally` gives `MINI`).
+  // form has always suggested (`Mini Rova` gives `MINI`).
   const autoKey = (n: string) => suggestKey(n, { style: 'prefix', max: 4 })
 
   function patch(p: Partial<ProjectFormValues>) {

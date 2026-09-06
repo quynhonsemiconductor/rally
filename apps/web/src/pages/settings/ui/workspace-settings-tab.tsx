@@ -160,7 +160,7 @@ export function WorkspaceSettingsTab() {
                   {current?.slug ?? workspace?.workspaceSlug ?? '--'}
                 </span>
               </div>
-              {/* Scope — Mini Rally is single-company per workspace (P4-SET-01):
+              {/* Scope — Mini Rova is single-company per workspace (P4-SET-01):
                   read-only, mirrors the Slug row so the baseline is visible. */}
               <div className="flex items-start justify-between gap-4 py-4">
                 <div className="min-w-0">

@@ -24,12 +24,12 @@
     <!-- Listed in img-src too: a redirect target is re-checked, so inline <img> rendering of an    -->
     <!-- attachment needs it as well.                                                               -->
     <!--                                                                                            -->
-    <!-- rally-assets{-dev}.qnsc.vn are the PUBLIC-asset origins (avatars, workspace logos) —        -->
-    <!-- the R2 custom domains fronting rally-{develop,prod}-public-assets. img-src ONLY; these      -->
+    <!-- rova-assets{-dev}.qnsc.vn are the PUBLIC-asset origins (avatars, workspace logos) —        -->
+    <!-- the R2 custom domains fronting rova-{develop,prod}-public-assets. img-src ONLY; these      -->
     <!-- are rendered, never fetched, so they are deliberately absent from connect-src.              -->
     <!--                                                                                            -->
     <!-- They are NOT covered by *.r2.cloudflarestorage.com: a custom domain replaces that host      -->
-    <!-- entirely, and CDN_PUBLIC_ASSETS_BASE_URL hands the SPA a rally-assets URL. Missing them     -->
+    <!-- entirely, and CDN_PUBLIC_ASSETS_BASE_URL hands the SPA a rova-assets URL. Missing them     -->
     <!-- fails LOUDER than the attachment case above but later — the upload succeeds end to end,     -->
     <!-- the row is written, and only the <img> is refused, so the avatar appears broken while       -->
     <!-- every server log stays clean.                                                               -->
@@ -59,8 +59,8 @@
         style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
         font-src 'self' https://fonts.gstatic.com data:;
         img-src 'self' data: blob: https://*.r2.cloudflarestorage.com http://localhost:4566
-          https://rally-assets-dev.qnsc.vn
-          https://rally-assets.qnsc.vn;
+          https://rova-assets-dev.qnsc.vn
+          https://rova-assets.qnsc.vn;
         connect-src 'self'
           blob:
           http://localhost:3000

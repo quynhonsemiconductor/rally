@@ -117,7 +117,7 @@ function layout(title: string, preheader: string, bodyHtml: string): string {
 // ── Template: workspace-invitation ───────────────────────────────────────────
 
 function workspaceInvitation(vars: EmailTemplateVars['workspace-invitation']): RenderedEmail {
-  const subject = `You've been invited to join ${vars.workspaceName} on Mini Rally`;
+  const subject = `You've been invited to join ${vars.workspaceName} on Mini Rova`;
 
   const bodyHtml = `
     <table width="100%" cellpadding="0" cellspacing="0" role="presentation" style="border-bottom:1px solid #edf0f4;">
@@ -130,7 +130,7 @@ function workspaceInvitation(vars: EmailTemplateVars['workspace-invitation']): R
       <tr><td style="padding:28px 32px;">
         <p style="margin:0 0 20px;font-size:13px;line-height:1.7;color:#3d4451;">
           You have been invited to join the workspace
-          <strong style="color:#1a2234;">${vars.workspaceName}</strong> on Mini Rally.
+          <strong style="color:#1a2234;">${vars.workspaceName}</strong> on Mini Rova.
         </p>
         <p style="margin:0 0 24px;font-size:13px;line-height:1.7;color:#3d4451;">
           This invitation expires in
@@ -162,14 +162,14 @@ function workspaceInvitation(vars: EmailTemplateVars['workspace-invitation']): R
   const html = layout(subject, `You've been invited to ${vars.workspaceName}`, bodyHtml);
 
   const text = [
-    `You've been invited to join ${vars.workspaceName} on Mini Rally`,
+    `You've been invited to join ${vars.workspaceName} on Mini Rova`,
     '',
     `Click the link below to accept your invitation (valid for ${vars.expiresInDays} day${vars.expiresInDays === '1' ? '' : 's'}):`,
     vars.inviteUrl,
     '',
     'If you were not expecting this invitation, you can safely ignore this email.',
     '',
-    '— Mini Rally',
+    '— Mini Rova',
   ].join('\n');
 
   return { subject, html, text, category: 'transactional' as const };
@@ -194,7 +194,7 @@ function notification(vars: EmailTemplateVars['notification']): RenderedEmail {
           <tr><td style="border-radius:6px;background:#1d3f73;">
             <a href="${vars.appUrl}"
                style="display:inline-block;padding:10px 24px;font-size:13px;font-weight:600;color:#fff;text-decoration:none;border-radius:6px;line-height:1;">
-              View in Mini Rally
+              View in Mini Rova
             </a>
           </td></tr>
         </table>
@@ -205,9 +205,9 @@ function notification(vars: EmailTemplateVars['notification']): RenderedEmail {
     vars.title,
     '',
     ...(vars.body ? [vars.body, ''] : []),
-    `Open in Mini Rally: ${vars.appUrl}`,
+    `Open in Mini Rova: ${vars.appUrl}`,
     '',
-    '— Mini Rally',
+    '— Mini Rova',
   ].join('\n');
 
   return {

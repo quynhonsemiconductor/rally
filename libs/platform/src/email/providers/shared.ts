@@ -22,7 +22,7 @@ export function resolveFromEmail(config: AppConfigService): string {
  * Using a display name is required for anti-spam compliance — bare addresses
  * score lower with Gmail's spam filters.
  *
- *   buildFromAddress(config)  →  "Mini Rally <noreply@app.example.com>"
+ *   buildFromAddress(config)  →  "Mini Rova <noreply@app.example.com>"
  */
 export function buildFromAddress(config: AppConfigService): string {
   const email = resolveFromEmail(config);

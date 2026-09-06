@@ -44,7 +44,7 @@ describe('suggestKey — prefix, for a project', () => {
   const prefix = (name: string) => suggestKey(name, { style: 'prefix', max: 4 })
 
   it('keeps the behaviour the project form has always had', () => {
-    expect(prefix('Mini Rally')).toBe('MINI')
+    expect(prefix('Mini Rova')).toBe('MINI')
     expect(prefix('Payments')).toBe('PAYM')
   })
 

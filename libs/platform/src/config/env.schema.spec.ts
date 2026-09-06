@@ -130,7 +130,7 @@ describe('EnvSchema — email sender', () => {
    *
    * `MAIL_FROM_EMAIL` documented itself as "Required when EMAIL_PROVIDER != 'dev'" and was
    * `.optional()`, so nothing enforced it — and both deployed environments ran
-   * `EMAIL_PROVIDER=ses` with no sender. Every message went out as `"Mini Rally" <>`, SES rejected
+   * `EMAIL_PROVIDER=ses` with no sender. Every message went out as `"Mini Rova" <>`, SES rejected
    * each one, three failures opened the email circuit breaker for the life of the process, and the
    * task went on reporting healthy. Invitations, notifications and password resets simply never
    * arrived, with nothing in the health checks to say so.

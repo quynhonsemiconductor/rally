@@ -3,7 +3,7 @@
  *
  * Requires:
  *  MAIL_FROM_EMAIL                      — verified sender address
- *  MAIL_FROM_NAME                       — display name, e.g. "Mini Rally"
+ *  MAIL_FROM_NAME                       — display name, e.g. "Mini Rova"
  *  AWS_REGION                           — e.g. ap-southeast-1
  *  IAM role / env creds with ses:SendEmail
  *  SES_BOUNCE_CONFIGSET (optional)      — configuration set name; when set, every send is

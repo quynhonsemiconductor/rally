@@ -12,7 +12,7 @@
  * Requires:
  *   RESEND_API_KEY   — from https://resend.com/api-keys
  *   MAIL_FROM_EMAIL  — verified sender address (must match verified domain)
- *   MAIL_FROM_NAME   — display name, e.g. "Mini Rally"
+ *   MAIL_FROM_NAME   — display name, e.g. "Mini Rova"
  *
  * Anti-spam / Google-Yahoo 2024 compliance:
  *   - Proper "Display Name <address>" From header.
