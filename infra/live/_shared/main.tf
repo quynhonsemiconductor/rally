@@ -141,7 +141,7 @@ module "iam_oidc" {
 # lifecycle. An ARN string doesn't require the resource to exist.
 locals {
   rova_develop_rds_arn = "arn:aws:rds:ap-southeast-1:${data.aws_caller_identity.current.account_id}:db:rova-develop"
-  rally_prod_rds_arn    = "arn:aws:rds:ap-southeast-1:${data.aws_caller_identity.current.account_id}:db:rally-prod"
+  rova_prod_rds_arn    = "arn:aws:rds:ap-southeast-1:${data.aws_caller_identity.current.account_id}:db:rova-prod"
 }
 
 resource "aws_iam_role_policy" "deploy_rds_dev_guard" {
@@ -197,7 +197,7 @@ resource "aws_iam_role_policy" "deploy_rds_prod_guard" {
           "rds:DescribeDBInstances",
           "rds:StartDBInstance",
         ]
-        Resource = local.rally_prod_rds_arn
+        Resource = local.rova_prod_rds_arn
       }
     ]
   })

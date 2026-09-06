@@ -34,7 +34,7 @@ provider "aws" {
   region = "ap-southeast-1"
   default_tags {
     tags = {
-      Project     = "rally"
+      Project     = "rova"
       Environment = "production"
       ManagedBy   = "opentofu"
     }
@@ -63,7 +63,7 @@ provider "aws" {
   region = "us-east-1"
   default_tags {
     tags = {
-      Project     = "rally"
+      Project     = "rova"
       Environment = "production"
       ManagedBy   = "opentofu"
     }
@@ -83,17 +83,17 @@ module "stack" {
     aws.us_east_1 = aws.us_east_1
   }
 
-  product = "rally"
+  product = "rova"
   env     = "production"
-  // Resources are named `rally-prod`, not `rally-production`: renaming them would
-  // force replacement of the cluster, the RDS instance and every log group.
+  // Resources are named `rova-prod`, not `rova-production`: renaming the env_slug
+  // would force replacement of the cluster, the RDS instance and every log group.
   env_slug = "prod"
   region   = local.region
 
-  app_domain = "rally.qnsc.vn"
-  api_domain = "rally-api.qnsc.vn"
-  web_record = "rally"
-  api_record = "rally-api"
+  app_domain = "rova.qnsc.vn"
+  api_domain = "rova-api.qnsc.vn"
+  web_record = "rova"
+  api_record = "rova-api"
 
   shared_state_key  = "rally/shared/terraform.tfstate"
   runtime_state_key = "platform/runtime-prod/terraform.tfstate"

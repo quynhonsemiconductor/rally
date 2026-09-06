@@ -246,7 +246,22 @@ jobs:
 
       - name: tofu apply
         working-directory: infra/live/prod
-        run: tofu apply -input=false -auto-approve
+        # Two-pass apply, identical to develop: the api/worker execution_secrets
+        # policy docs and the firelens agents are count-dependent on resources that
+        # do not exist yet on the FIRST apply under a renamed product (rally→rova),
+        # so pass 1 excludes those modules to create their dependencies; pass 2
+        # converges. -refresh=false on the converge pass: the RDS subnet group
+        # carries a same-VPC divergence (rally-prod-db vs rova-prod-db) that AWS
+        # permanently rejects moving; state already holds the desired value, so a
+        # refresh re-detects a move that can never apply. Once the rename settles,
+        # this can go back to a single-pass apply.
+        run: |
+          tofu apply -input=false -auto-approve \
+            -exclude=module.stack.module.api.data.aws_iam_policy_document.execution_secrets \
+            -exclude=module.stack.module.worker.data.aws_iam_policy_document.execution_secrets \
+            -exclude=module.stack.module.firelens_agent_api \
+            -exclude=module.stack.module.firelens_agent_worker || true
+          tofu apply -refresh=false -input=false -auto-approve
         env:
           TF_VAR_cloudflare_api_token: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           TF_VAR_grafana_alerting_auth: ${{ secrets.GRAFANA_ALERTS_TOKEN }}
