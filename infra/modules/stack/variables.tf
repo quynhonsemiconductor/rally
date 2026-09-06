@@ -617,7 +617,7 @@ variable "storage_public_credentials" {
 variable "db_least_privilege" {
   description = <<-EOT
     Point the api and worker tasks at the least-privilege Postgres roles
-    (`rally_app` / `rally_worker`) instead of the RDS master credential.
+    (`rova_app` / `rova_worker`) instead of the RDS master credential.
 
     OFF by default so merging this changes nothing that is running. Today all
     three tasks connect as the master user, which OWNS every table: an ordinary

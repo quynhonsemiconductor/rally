@@ -200,7 +200,7 @@ locals {
     # config. Empty keeps the whole OTel path dormant.
 
     # Passwords for the least-privilege database roles created by migration 0068
-    # (rally_app / rally_worker). Empty containers only: the value is set by hand
+    # (rova_app / rova_worker). Empty containers only: the value is set by hand
     # at the same moment the role is granted LOGIN, so the password exists in
     # exactly two places — Secrets Manager and pg_authid — and never in state.
     #
@@ -217,8 +217,8 @@ locals {
     # the key shows up in the bundle's generated description; the IAM grant is the whole
     # bundle either way.
     "tunnel-token"       = "Cloudflare Tunnel connector token (cloudflared TUNNEL_TOKEN)"
-    "db-app-password"    = "Password for the rally_app Postgres role (api) — set with the LOGIN grant"
-    "db-worker-password" = "Password for the rally_worker Postgres role (worker) — set with the LOGIN grant"
+    "db-app-password"    = "Password for the rova_app Postgres role (api) — set with the LOGIN grant"
+    "db-worker-password" = "Password for the rova_worker Postgres role (worker) — set with the LOGIN grant"
   })
 }
 
@@ -1576,14 +1576,14 @@ module "ecs_cluster" {
 # what made the RLS layer in migration 0005 inert, and it is the audit's top
 # finding in the drop-multi-tenant design doc.
 #
-# Migration 0068 creates rally_app / rally_worker with DML rights only. Flipping
+# Migration 0068 creates rova_app / rova_worker with DML rights only. Flipping
 # `db_least_privilege` per environment points the two runtime tasks at them. The
 # MIGRATOR deliberately stays on master — it needs DDL, and narrowing it means
 # transferring schema ownership, which is a separate and more disruptive step.
 #
 # Both branches keep the same shape the RDS-managed secret established: nothing
 # is a hand-maintained copy, and the app composes the URL from parts. The only
-# difference is that the username stops being a secret field — `rally_app` is not
+# difference is that the username stops being a secret field — `rova_app` is not
 # a credential — so it moves to plain env alongside host/port/name.
 locals {
   # IAM resource list for the secret containers this stack owns.
@@ -1627,8 +1627,8 @@ locals {
     { name = "DATABASE_PASSWORD", secret_arn = "${module.rds.master_secret_arn}:password::" },
   ]
 
-  api_db_env    = var.db_least_privilege ? [{ name = "DATABASE_USER", value = "rally_app" }] : []
-  worker_db_env = var.db_least_privilege ? [{ name = "DATABASE_USER", value = "rally_worker" }] : []
+  api_db_env    = var.db_least_privilege ? [{ name = "DATABASE_USER", value = "rova_app" }] : []
+  worker_db_env = var.db_least_privilege ? [{ name = "DATABASE_USER", value = "rova_worker" }] : []
 
   # ── Connection-pool budget ──────────────────────────────────────────────────
   # `DATABASE_POOL_MAX` defaults to 20 per PROCESS in env.schema.ts, and nothing
@@ -1800,7 +1800,7 @@ module "api" {
   kms_key_arn = local.kms_key_arn
   secrets = concat(local.api_db_secrets, [
     # DB credentials come from local.api_db_secrets above: the RDS-managed secret
-    # AWS owns and rotates, or the rally_app password once db_least_privilege is
+    # AWS owns and rotates, or the rova_app password once db_least_privilege is
     # on. Never a hand-maintained copy either way. `:key::` selects one JSON field.
     #
     # This replaced a static `db-url` secret. That copy went stale on every
@@ -1995,7 +1995,7 @@ module "worker" {
   kms_key_arn = local.kms_key_arn
   secrets = concat(local.worker_db_secrets, [
     # DB credentials come from local.worker_db_secrets above: the RDS-managed
-    # secret AWS owns and rotates, or the rally_worker password once
+    # secret AWS owns and rotates, or the rova_worker password once
     # db_least_privilege is on. Never a hand-maintained copy either way.
     #
     # This replaced a static `db-url` secret. That copy went stale on every
@@ -2179,7 +2179,7 @@ module "migrator" {
   secrets = merge({
     # The master credential, and it stays that way even when `db_least_privilege`
     # moves the api and worker off it: the migrator runs DDL, so it needs the
-    # owner. Narrowing it to `rally_migrate` additionally requires transferring
+    # owner. Narrowing it to `rova_migrate` additionally requires transferring
     # schema ownership (`REASSIGN OWNED BY`), which is step 4 of the runbook and
     # deliberately not bundled with the runtime cutover.
     #

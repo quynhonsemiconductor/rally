@@ -2,11 +2,11 @@
  * Grant LOGIN to the least-privilege Postgres roles, then prove they are not
  * over-privileged. This is step 2 of docs/runbooks/db-role-least-privilege.md.
  *
- * Migration 0068 creates `rally_app` and `rally_worker` NOLOGIN, because giving a
+ * Migration 0068 creates `rova_app` and `rova_worker` NOLOGIN, because giving a
  * role a password is a deliberate cutover step, not something a migration should
  * do. This script is that step, and it runs in two places:
  *
- *  - CI, before the e2e job, so the whole suite runs as `rally_app` instead of the
+ *  - CI, before the e2e job, so the whole suite runs as `rova_app` instead of the
  *    superuser. Without it the split is untested: every other job connects as an
  *    owner, so a schema or sequence migration 0068 forgot to GRANT would pass CI
  *    and surface only after the real cutover, as `permission denied for …`.
@@ -47,14 +47,14 @@ interface Target {
  * The roles this script knows how to enable, and where each password comes from.
  *
  * A role whose password env var is unset is SKIPPED, not defaulted. That is what
- * lets one script serve both callers: CI supplies only `rally_app` (the e2e suite
+ * lets one script serve both callers: CI supplies only `rova_app` (the e2e suite
  * is the only consumer), while the deployed one-off task supplies both from the
  * `db-app-password` / `db-worker-password` secrets. Defaulting instead would mean
  * a typo in the secret wiring silently set a guessable password on a real role.
  */
 const TARGETS: Target[] = [
-  { role: 'rally_app', passwordEnv: 'DATABASE_APP_PASSWORD' },
-  { role: 'rally_worker', passwordEnv: 'DATABASE_WORKER_PASSWORD' },
+  { role: 'rova_app', passwordEnv: 'DATABASE_APP_PASSWORD' },
+  { role: 'rova_worker', passwordEnv: 'DATABASE_WORKER_PASSWORD' },
 ];
 
 /**

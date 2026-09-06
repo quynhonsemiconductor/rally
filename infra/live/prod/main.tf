@@ -320,9 +320,9 @@ module "stack" {
   //
   // The cutover task ran here on 2026-07-29 (task
   // 747f5e5183c046d6afb399b3810f007e on rally-prod-migrator:15, exit 0). Verified
-  // independently afterwards against this database: rally_app and rally_worker both
+  // independently afterwards against this database: rova_app and rova_worker both
   // have rolcanlogin=true with rolsuper/rolbypassrls/rolcreatedb/rolcreaterole all
-  // false, and a real connection as rally_app succeeded.
+  // false, and a real connection as rova_app succeeded.
   //
   // The MIGRATOR keeps the master credential — it needs DDL. Narrowing it means
   // transferring schema ownership, which is step 4 and deliberately separate.
