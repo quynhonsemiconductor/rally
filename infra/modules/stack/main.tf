@@ -668,7 +668,7 @@ locals {
 
   # main, not a tag/sha: a runbook is meant to be edited without cutting a release,
   # and Grafana's alert panel just needs a URL that resolves, not a pinned revision.
-  runbook_base_url = "https://github.com/quynhonsemiconductor/rally/blob/main/docs/runbooks/alerts"
+  runbook_base_url = "https://github.com/quynhonsemiconductor/rova/blob/main/docs/runbooks/alerts"
 
   # A DIFFERENT number from http_error_rate above, deliberately not reused. The
   # alert threshold answers "is this bad enough to page right now" over 5
@@ -1055,7 +1055,7 @@ resource "grafana_dashboard" "overview" {
     schemaVersion = 39
     time          = { from = "now-6h", to = "now" }
     refresh       = "1m"
-    tags          = ["rally", var.env, "provisioned"]
+    tags          = ["rova", var.env, "provisioned"]
 
     # "level" gates the Logs Explorer panel below — a debug/investigation
     # tool, not a golden-signal panel, so it defaults to every level
@@ -1115,7 +1115,7 @@ resource "grafana_dashboard" "overview" {
           datasource = { type = "grafana", uid = "-- Grafana --" }
           enable     = true
           iconColor  = "blue"
-          tags       = ["deploy", "rally", var.env]
+          tags       = ["deploy", "rova", var.env]
           type       = "tags"
         }
       ]
@@ -1311,7 +1311,7 @@ resource "grafana_dashboard" "overview" {
         }
         targets = [{
           datasource = { type = "loki", uid = data.grafana_data_source.loki[0].uid }
-          expr       = "{service_name=~\"rally-api|rally-worker\", deployment_environment_name=\"${var.env}\"} | detected_level=\"error\""
+          expr       = "{service_name=~\"rova-api|rova-worker\", deployment_environment_name=\"${var.env}\"} | detected_level=\"error\""
           refId      = "A"
         }]
       },
@@ -1342,7 +1342,7 @@ resource "grafana_dashboard" "overview" {
         }
         targets = [{
           datasource = { type = "loki", uid = data.grafana_data_source.loki[0].uid }
-          expr       = "{service_name=~\"rally-api|rally-worker\", deployment_environment_name=\"${var.env}\"} | detected_level=~\"$level\""
+          expr       = "{service_name=~\"rova-api|rova-worker\", deployment_environment_name=\"${var.env}\"} | detected_level=~\"$level\""
           refId      = "A"
         }]
       },
@@ -1403,7 +1403,7 @@ resource "grafana_dashboard" "runtime" {
     schemaVersion = 39
     time          = { from = "now-6h", to = "now" }
     refresh       = "1m"
-    tags          = ["rally", var.env, "provisioned"]
+    tags          = ["rova", var.env, "provisioned"]
 
     # Vertical marker on every panel showing when a deploy landed —
     # backend-deploy.yml's `annotate-deploy` job posts these via Grafana's
@@ -1420,7 +1420,7 @@ resource "grafana_dashboard" "runtime" {
           datasource = { type = "grafana", uid = "-- Grafana --" }
           enable     = true
           iconColor  = "blue"
-          tags       = ["deploy", "rally", var.env]
+          tags       = ["deploy", "rova", var.env]
           type       = "tags"
         }
       ]
@@ -1543,7 +1543,7 @@ resource "grafana_dashboard" "runtime" {
         datasource = { type = "loki", uid = data.grafana_data_source.loki[0].uid }
         targets = [{
           datasource   = { type = "loki", uid = data.grafana_data_source.loki[0].uid }
-          expr         = "sum(count_over_time({service_name=~\"rally-api|rally-worker\", deployment_environment_name=\"${var.env}\"}[5m])) by (service_name)"
+          expr         = "sum(count_over_time({service_name=~\"rova-api|rova-worker\", deployment_environment_name=\"${var.env}\"}[5m])) by (service_name)"
           legendFormat = "{{service_name}}"
           refId        = "A"
         }]
@@ -3067,9 +3067,9 @@ locals {
         # BOTH resources, or a send that names a configuration set is denied on the
         # config-set ARN even with the identity allowed: SES evaluates EVERY resource the
         # request touches. Found live — worker emails failed with AccessDenied on
-        # 'configuration-set/rally-email-feedback' the moment #468 tagged sends with it,
+        # 'configuration-set/rova-email-feedback' the moment #468 tagged sends with it,
         # opening the email circuit breaker in both environments.
-        Resource = [local.ses_identity_arn, "arn:aws:ses:${var.region}:${data.aws_caller_identity.current.account_id}:configuration-set/rally-email-feedback"]
+        Resource = [local.ses_identity_arn, "arn:aws:ses:${var.region}:${data.aws_caller_identity.current.account_id}:configuration-set/rova-email-feedback"]
         Condition = {
           StringEquals = { "ses:FromAddress" = var.mail_from_email }
         }
