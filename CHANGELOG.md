@@ -1,5 +1,20 @@
 # Changelog
 
+## [0.7.14](https://github.com/quynhonsemiconductor/rova/compare/v0.7.13...v0.7.14) (2026-09-07)
+
+
+### 🐛 Bug Fixes
+
+* **ci:** make the tag deploy wait for the develop deploy of the same commit ([#536](https://github.com/quynhonsemiconductor/rova/issues/536)) ([194de1d](https://github.com/quynhonsemiconductor/rova/commit/194de1d1a5f4db92d5c613420a620fdf0c7a1c50))
+* **email:** centralize from-address resolution; add coverage-floor drift check ([#544](https://github.com/quynhonsemiconductor/rova/issues/544)) ([bd56840](https://github.com/quynhonsemiconductor/rova/commit/bd568406dc810173b548b28927e839a3e559a641))
+* **observability:** align dashboard queries, alert tags and SES grant with product name ([845ae4a](https://github.com/quynhonsemiconductor/rova/commit/845ae4a843d7e0d3c3f3ae09ca77beda195447ff))
+
+
+### ♻️ Refactors
+
+* **db:** rename least-privilege roles to the new product name ([e942af6](https://github.com/quynhonsemiconductor/rova/commit/e942af6ece77dd06b902455acd5675eda02e2220))
+* **infra:** move SES domain identity to platform tier, align qnsc-ci pins ([#543](https://github.com/quynhonsemiconductor/rova/issues/543)) ([6c7e5f7](https://github.com/quynhonsemiconductor/rova/commit/6c7e5f7fa6f8e91ecd7580c204272ded8d871de6))
+
 ## [0.7.13](https://github.com/QNSC-VN/rally/compare/v0.7.12...v0.7.13) (2026-08-31)
 
 
