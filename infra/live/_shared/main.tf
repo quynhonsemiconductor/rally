@@ -6,7 +6,7 @@ terraform {
 
   backend "s3" {
     bucket         = "qnsc-tofu-state"
-    key            = "rally/shared/terraform.tfstate"
+    key            = "rova/shared/terraform.tfstate"
     region         = "ap-southeast-1"
     encrypt        = true
     dynamodb_table = "qnsc-tofu-locks"

@@ -15,7 +15,7 @@ terraform {
 
   backend "s3" {
     bucket         = "qnsc-tofu-state"
-    key            = "rally/develop/terraform.tfstate"
+    key            = "rova/develop/terraform.tfstate"
     region         = "ap-southeast-1"
     encrypt        = true
     dynamodb_table = "qnsc-tofu-locks"
@@ -87,7 +87,7 @@ module "stack" {
   web_record = "rova-dev"
   api_record = "rova-api-dev"
 
-  shared_state_key  = "rally/shared/terraform.tfstate"
+  shared_state_key  = "rova/shared/terraform.tfstate"
   runtime_state_key = "platform/runtime-dev/terraform.tfstate"
   storage_state_key = "platform/storage-dev/terraform.tfstate"
 
