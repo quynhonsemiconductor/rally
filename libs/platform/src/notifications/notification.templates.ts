@@ -31,6 +31,42 @@ export const NOTIFICATION_TEMPLATE_NAMES = [
 
 export type NotificationTemplateName = (typeof NOTIFICATION_TEMPLATE_NAMES)[number];
 
+/**
+ * Which templates may ALSO leave the product as an EMAIL, and which are in-app only.
+ *
+ * This is a PRODUCT/COST decision, not a user preference, so it lives beside the template
+ * registry rather than in `notification_preferences`: a preference row can only NARROW a
+ * channel that is available here, never open one that is not — the same one-way relationship
+ * an API token's `scopes` have to a principal's permissions. The relay consults this BEFORE
+ * it reads a preference, so an existing `email: true` row (and the default, which is `true`
+ * for a type with no row at all) cannot resurrect a channel that was turned off here.
+ *
+ * `WORK_ITEM_ASSIGNED` is `false` deliberately: assignment is the highest-volume event in the
+ * product — every Owner and Dev Owner write on a Story, a Defect or a Task produces one — and
+ * the recipient is a logged-in user who gets the in-app notification and the SSE push anyway,
+ * so the email was paid-for duplication. The in-app half is untouched.
+ *
+ * A new template is a compile error here until it declares a channel, which is the point.
+ */
+export const EMAIL_CHANNEL_BY_TEMPLATE: Record<NotificationTemplateName, boolean> = {
+  WORKSPACE_INVITATION: true,
+  WORKSPACE_INVITATION_ACCEPTED: true,
+  WORK_ITEM_ASSIGNED: false,
+  WORK_ITEM_STATE_CHANGED: true,
+  WORK_ITEM_COMMENTED: true,
+  WORK_ITEM_MENTIONED: true,
+};
+
+/**
+ * Runtime form of the table above, for the relay — which reads `notification_outbox.type`, a
+ * plain varchar that no enum constrains. An UNRECOGNISED type answers `false`: it is bad data
+ * (`renderNotification` throws on it, so the row fails and never delivers in-app either), and
+ * an unknown type is not something to spend a send on.
+ */
+export function emailChannelAvailable(type: string): boolean {
+  return EMAIL_CHANNEL_BY_TEMPLATE[type as NotificationTemplateName] ?? false;
+}
+
 interface WorkItemNotificationVars {
   itemKey: string;
   itemTitle: string;

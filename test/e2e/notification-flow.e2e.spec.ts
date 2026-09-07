@@ -674,6 +674,43 @@ describe('BA flows: Worker relay — real fetchBatch/processRow/markSent/markFai
     await prefs.reset(WORKSPACE_ID, recipientId, 'WORK_ITEM_COMMENTED');
   });
 
+  it('never cascades WORK_ITEM_ASSIGNED to email, even with the email preference enabled', async () => {
+    // No preference row is written: the DEFAULT is `email: true`, so a template that reached
+    // the preference check would be mailed here. EMAIL_CHANNEL_BY_TEMPLATE marks this type
+    // in-app only and is consulted first, which is what this asserts. Targets the seeded admin
+    // (a real identity.users row) so a missing email address cannot be the reason nothing sends.
+    const [row] = await db
+      .insert(notificationOutbox)
+      .values({
+        workspaceId: WORKSPACE_ID,
+        recipientId: admin.sub,
+        actorId: admin.sub,
+        type: 'WORK_ITEM_ASSIGNED',
+        vars: { itemKey: 'NXP-904', itemTitle: 'In-app only', projectId: randomUUID() },
+        resourceId: randomUUID(),
+      })
+      .returning();
+
+    // Same bounded-batch reasoning as the cascade test above — re-drive until OUR row lands.
+    const delivered = await waitFor(async () => {
+      await notificationRelay.relay();
+      const [r] = await db
+        .select()
+        .from(inAppNotifications)
+        .where(eq(inAppNotifications.sourceEventId, row.id));
+      return r;
+    }, 10_000);
+    // The in-app half is untouched: this is a channel removal, not a notification removal.
+    expect(delivered).toBeDefined();
+    expect(delivered.type).toBe('WORK_ITEM_ASSIGNED');
+
+    const emailRows = await db
+      .select()
+      .from(emailOutbox)
+      .where(eq(emailOutbox.idempotencyKey, `notification-email:${delivered.id}`));
+    expect(emailRows).toHaveLength(0);
+  });
+
   it('retries a failing row with backoff instead of exhausting all attempts immediately', async () => {
     // renderNotification()'s exhaustiveness guard throws for any type outside
     // NotificationTemplateName — the real, catchable failure mode processRow()
