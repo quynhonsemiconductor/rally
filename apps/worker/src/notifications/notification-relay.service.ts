@@ -17,9 +17,12 @@
  *   processRow() returns a PostCommitTask that runs AFTER the transaction
  *   commits.  It does two things in parallel:
  *     1. Publishes to Valkey → SSE push (in-app real-time).
- *     2. Checks the user's email preference; if enabled, looks up the
+ *     2. Checks the template's email channel policy (EMAIL_CHANNEL_BY_TEMPLATE)
+ *        and then the user's email preference; if both allow it, looks up the
  *        recipient's email address and writes an email_outbox row via
  *        EmailSchedulerService so the email relay delivers it asynchronously.
+ *        The policy is asked first and a preference can only narrow it — an
+ *        in-app-only template is never mailed, whatever the preference says.
  *   Email scheduling uses a deterministic idempotency key so relay retries
  *   never produce duplicate emails.  Only non-null (new) notifications trigger
  *   either post-commit task; deduplicated rows are silent no-ops.
@@ -37,7 +40,11 @@ import type { DrizzleDB, DrizzleTx } from '@platform';
 import { AbstractOutboxRelay } from '@platform/outbox';
 import type { PostCommitTask } from '@platform/outbox';
 import { NotificationsService, NotificationPreferencesService } from '@modules/notifications';
-import { renderNotification, NotificationPubSubService } from '@platform/notifications';
+import {
+  renderNotification,
+  emailChannelAvailable,
+  NotificationPubSubService,
+} from '@platform/notifications';
 import type { NotificationTemplateName, NotificationTemplateVars } from '@platform/notifications';
 import { EmailSchedulerService, AppConfigService } from '@platform';
 import { notificationOutbox } from '../../../../db/schema/messaging';
@@ -176,12 +183,13 @@ export class NotificationRelayService
 
     if (!notification) return; // deduplicated — no post-commit work needed
 
-    // Check email preference outside the transaction (acceptable eventual consistency).
-    const emailEnabled = await this.prefs.isEmailEnabled(
-      row.workspaceId,
-      row.recipientId,
-      row.type,
-    );
+    // The template's own channel policy is asked FIRST, and it is not a preference: a type that
+    // is in-app only (WORK_ITEM_ASSIGNED) can never be mailed, so no `email: true` row and no
+    // default can widen it back. Also saves the preference query on the highest-volume type.
+    const emailEnabled =
+      emailChannelAvailable(row.type) &&
+      // Check email preference outside the transaction (acceptable eventual consistency).
+      (await this.prefs.isEmailEnabled(row.workspaceId, row.recipientId, row.type));
 
     return async () => {
       // 1. SSE real-time push via Valkey.

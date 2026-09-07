@@ -30,6 +30,18 @@ const TYPES = [
   'WORK_ITEM_MENTIONED',
 ] as const
 
+// Mirror of EMAIL_CHANNEL_BY_TEMPLATE (@platform/notifications). A type absent here is
+// in-app only — the relay refuses the email channel for it whatever the preference says, so
+// the toggle is shown off and disabled rather than offering a switch that does nothing.
+const EMAIL_CAPABLE: ReadonlySet<string> = new Set([
+  '*',
+  'WORKSPACE_INVITATION',
+  'WORKSPACE_INVITATION_ACCEPTED',
+  'WORK_ITEM_STATE_CHANGED',
+  'WORK_ITEM_COMMENTED',
+  'WORK_ITEM_MENTIONED',
+])
+
 type Channel = 'inApp' | 'email'
 
 const GRID = 'grid grid-cols-[1fr_72px_72px] items-center gap-x-2'
@@ -144,7 +156,8 @@ export function NotificationsTab() {
                       label={t(`notifications.types.${type}.label`)}
                       desc={t(`notifications.types.${type}.desc`)}
                       inApp={resolve(type, 'inApp')}
-                      email={resolve(type, 'email')}
+                      email={EMAIL_CAPABLE.has(type) && resolve(type, 'email')}
+                      emailDisabled={!EMAIL_CAPABLE.has(type)}
                       disabled={busy}
                       onToggle={(ch) => toggle(type, ch)}
                       colInApp={t('notifications.colInApp')}
@@ -185,6 +198,7 @@ function PrefRow({
   inApp,
   email,
   disabled,
+  emailDisabled = false,
   onToggle,
   emphasis = false,
   colInApp,
@@ -195,6 +209,8 @@ function PrefRow({
   inApp: boolean
   email: boolean
   disabled: boolean
+  /** This template is in-app only — the email channel is not a choice for it. */
+  emailDisabled?: boolean
   onToggle: (channel: Channel) => void
   emphasis?: boolean
   colInApp: string
@@ -223,7 +239,7 @@ function PrefRow({
           checked={email}
           onChange={() => onToggle('email')}
           ariaLabel={`${label} — ${colEmail}`}
-          disabled={disabled}
+          disabled={disabled || emailDisabled}
         />
       </div>
     </div>
