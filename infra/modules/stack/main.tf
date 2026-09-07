@@ -1049,7 +1049,7 @@ resource "grafana_dashboard" "overview" {
 
   config_json = jsonencode({
     title         = "Overview (${var.env})"
-    uid           = "rally-overview-${var.env}"
+    uid           = "rova-overview-${var.env}"
     timezone      = "browser"
     editable      = false
     schemaVersion = 39
@@ -1397,7 +1397,7 @@ resource "grafana_dashboard" "runtime" {
 
   config_json = jsonencode({
     title         = "Runtime & Dependencies (${var.env})"
-    uid           = "rally-runtime-${var.env}"
+    uid           = "rova-runtime-${var.env}"
     timezone      = "browser"
     editable      = false
     schemaVersion = 39
